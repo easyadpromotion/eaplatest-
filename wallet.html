@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Wallet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* 1. APP FRAME */
+    body { 
+      font-family: 'Poppins', sans-serif; background: #f0f2f5; 
+      margin: 0; padding: 20px; display: flex; justify-content: center; min-height: 100vh; 
+    }
+    
+    .mobile-screen { 
+      background: #f8f9fa; width: 100%; max-width: 380px; min-height: 100vh; 
+      position: relative; display: flex; flex-direction: column; 
+      box-shadow: 0 0 30px rgba(0,0,0,0.1); border-radius: 40px; border: 8px solid white; overflow: hidden;
+    }
+
+    /* 2. HEADER (Matches Dashboard) */
+    .header {
+      background: linear-gradient(135deg, #ff9800, #f57c00); 
+      padding: 30px 25px 40px; color: white;
+      border-radius: 0 0 30px 30px; box-shadow: 0 10px 20px rgba(255, 152, 0, 0.2);
+      text-align: center;
+    }
+    .page-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+    
+    /* ATM CARD STYLE */
+    .balance-card {
+      background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+      padding: 20px; border-radius: 20px; backdrop-filter: blur(10px);
+      text-align: center; margin: 0 10px;
+    }
+    .bal-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
+    .bal-amount { font-size: 32px; font-weight: 700; margin: 5px 0 15px; }
+    
+    .withdraw-btn {
+      background: white; color: #ff9800; border: none; padding: 10px 25px;
+      border-radius: 25px; font-weight: 700; cursor: pointer; font-size: 13px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s;
+    }
+    .withdraw-btn:active { transform: scale(0.95); }
+
+    /* 3. TRANSACTIONS LIST */
+    .content-area { flex: 1; padding: 20px; overflow-y: auto; padding-bottom: 80px; } /* Space for Bottom Nav */
+    .section-title { font-size: 14px; font-weight: 700; color: #555; margin-bottom: 15px; }
+
+    .tx-card {
+      background: white; padding: 15px; border-radius: 16px; margin-bottom: 12px;
+      display: flex; justify-content: space-between; align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03); border: 1px solid #f0f0f0;
+    }
+    
+    .tx-left { display: flex; align-items: center; gap: 12px; }
+    .tx-icon { 
+      width: 40px; height: 40px; background: #e0f2f1; border-radius: 12px; 
+      display: flex; align-items: center; justify-content: center; font-size: 20px;
+    }
+    
+    .tx-info h4 { margin: 0; font-size: 13px; font-weight: 600; color: #333; }
+    .tx-info p { margin: 2px 0 0; font-size: 10px; color: #888; }
+    
+    .tx-val { font-size: 14px; font-weight: 700; color: #2e7d32; }
+    .tx-val.debit { color: #c62828; }
+
+    /* 4. MODAL (Popup) */
+    .modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 50; }
+    .modal-box { background: white; width: 80%; padding: 25px; border-radius: 20px; text-align: center; }
+    
+    .inp-field { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-family: inherit; }
+    
+    .modal-btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; margin-top: 10px; }
+    .btn-confirm { background: #ff9800; color: white; }
+    .btn-cancel { background: #f0f0f0; color: #333; }
+
+    /* 5. BOTTOM NAV */
+    .bottom-nav {
+        position: absolute; bottom: 0; left: 0; width: 100%;
+        background: white; border-top: 1px solid #f0f0f0;
+        display: flex; justify-content: space-around; padding: 12px 0;
+        border-radius: 20px 20px 0 0; z-index: 20;
+    }
+    .nav-item { 
+        text-decoration: none; display: flex; flex-direction: column; align-items: center; 
+        color: #aaa; flex: 1; cursor: pointer;
+    }
+    .nav-icon { font-size: 22px; margin-bottom: 3px; transition: transform 0.2s; }
+    .nav-text { font-size: 10px; font-weight: 600; }
+    
+    .nav-item.active { color: #ff9800; } 
+    .nav-item.active .nav-icon { transform: scale(1.1); }
+
+  </style>
+</head>
+<body onload="loadWallet()">
+
+<div class="mobile-screen">
+
+  <div class="header">
+    <div class="page-title">My Wallet</div>
+    
+    <div class="balance-card">
+      <div class="bal-label">Total Balance</div>
+      <div class="bal-amount" id="dispBal">₹ 0.00</div>
+      <button class="withdraw-btn" onclick="openModal()">⬇ Request Withdrawal</button>
+    </div>
+  </div>
+
+  <div class="content-area">
+    <div class="section-title">Recent Transactions</div>
+    <div id="txList">
+       <div style="text-align:center; color:#aaa; font-size:12px; margin-top:30px;">No transactions yet</div>
+    </div>
+  </div>
+
+  <div id="withdrawModal" class="modal">
+    <div class="modal-box">
+      <h3 style="margin-top:0;">Request Payout</h3>
+      <p style="font-size:12px; color:#666;">Minimum withdrawal is ₹ 100.00</p>
+      
+      <input type="number" id="wAmt" class="inp-field" placeholder="Enter Amount (₹)">
+      <input type="text" id="wUpi" class="inp-field" placeholder="UPI ID (e.g. name@upi)">
+      
+      <button class="modal-btn btn-confirm" onclick="submitWithdraw()">Submit Request</button>
+      <button class="modal-btn btn-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+      <a href="home.html" class="nav-item">
+          <div class="nav-icon">🏠</div><span class="nav-text">Home</span>
+      </a>
+      <a href="#" class="nav-item">
+          <div class="nav-icon">📢</div><span class="nav-text">My Ads</span>
+      </a>
+      <a href="wallet.html" class="nav-item active">
+          <div class="nav-icon">👛</div><span class="nav-text">Wallet</span>
+      </a>
+      <a href="settings.html" class="nav-item">
+          <div class="nav-icon">⚙️</div><span class="nav-text">Settings</span>
+      </a>
+  </div>
+
+</div>
+
+<script>
+  function loadWallet() {
+    const activeMobile = localStorage.getItem("activeUser");
+    if(activeMobile) {
+      const user = JSON.parse(localStorage.getItem("userProfile_" + activeMobile));
+      if(user) {
+        document.getElementById("dispBal").innerText = "₹ " + parseFloat(user.wallet).toFixed(2);
+      }
+    }
+    // Note: In a real app, we would load transaction history here
+  }
+
+  function openModal() { document.getElementById("withdrawModal").style.display = "flex"; }
+  function closeModal() { document.getElementById("withdrawModal").style.display = "none"; }
+
+  function submitWithdraw() {
+    const amt = parseFloat(document.getElementById("wAmt").value);
+    const upi = document.getElementById("wUpi").value;
+    const mobile = localStorage.getItem("activeUser");
+    let user = JSON.parse(localStorage.getItem("userProfile_" + mobile));
+    let currentBal = parseFloat(user.wallet);
+
+    if(!amt || !upi) { alert("Please enter amount and UPI ID"); return; }
+    if(amt > currentBal) { alert("Insufficient Balance!"); return; }
+    if(amt < 100) { alert("Minimum withdrawal is ₹100"); return; }
+
+    // DEDUCT BALANCE
+    user.wallet = (currentBal - amt).toFixed(2);
+    localStorage.setItem("userProfile_" + mobile, JSON.stringify(user));
+
+    // SAVE REQUEST FOR ADMIN
+    const request = {
+        id: "WID" + Math.floor(Math.random() * 9999),
+        user: user.name,
+        mobile: mobile,
+        amount: amt,
+        upi: upi,
+        status: "Pending",
+        date: new Date().toLocaleDateString()
+    };
+    
+    let requests = JSON.parse(localStorage.getItem("withdrawalRequests")) || [];
+    requests.push(request);
+    localStorage.setItem("withdrawalRequests", JSON.stringify(requests));
+
+    alert(`Withdrawal Request of ₹${amt} Sent!\nAdmin will process shortly.`);
+    closeModal();
+    loadWallet(); // Refresh UI
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EAP – Super Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { 
+      font-family: 'Segoe UI', sans-serif; 
+      background: #eef2f5; 
+      margin: 0; padding: 0; 
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh;
+    }
+
+    .mobile-screen {
+      background: #fff;
+      width: 100%; max-width: 380px; 
+      min-height: 750px; 
+      border-radius: 35px; 
+      box-shadow: 0 30px 60px rgba(0,0,0,0.15); 
+      padding: 40px 30px;
+      box-sizing: border-box;
+      display: flex; flex-direction: column; align-items: center;
+      position: relative; text-align: center;
+    }
+
+    .logo-container { width: 100%; margin-bottom: 10px; }
+    .main-logo { width: 100%; height: auto; display: block; border-radius: 15px; }
+
+    /* PURPLE THEME */
+    .brand-title { font-size: 30px; font-weight: 900; color: #311b92; margin: 5px 0 20px 0; letter-spacing: 1px; }
+    h2 { margin: 0; color: #333; font-size: 24px; }
+    p { color: #888; font-size: 14px; margin-bottom: 30px; }
+
+    input { 
+      width: 100%; padding: 16px; border: 2px solid #f0f0f0; border-radius: 12px; 
+      font-size: 16px; outline: none; box-sizing: border-box; text-align: center;
+      background: #fafafa; margin-bottom: 15px; transition: 0.3s;
+    }
+    input:focus { border-color: #311b92; background: #fff; }
+
+    .btn-admin {
+      width: 100%; padding: 18px; background: #311b92; color: white; border: none; 
+      border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 10px;
+      box-shadow: 0 8px 20px rgba(49, 27, 146, 0.3);
+    }
+    .btn-admin:hover { background: #1a237e; }
+
+    .footer-link { margin-top: auto; font-size: 13px; color: #bbb; }
+  </style>
+</head>
+<body>
+
+  <div class="mobile-screen">
+    
+    <div class="logo-container">
+      <img src="EAP-LOGO.jpg" alt="EAP Logo" class="main-logo">
+    </div>
+
+    <div class="brand-title">MOTHER ADMIN</div>
+    
+    <h2>System Control</h2>
+    <p>Restricted Access Only</p>
+
+    <input type="text" id="aUser" placeholder="Username">
+    <input type="password" id="aPass" placeholder="Access Key">
+    
+    <button class="btn-admin" onclick="login()">Enter System</button>
+    
+    <div class="footer-link">Secure System &copy; 2026</div>
+
+  </div>
+
+  <script>
+    function login() {
+      const u = document.getElementById("aUser").value;
+      const p = document.getElementById("aPass").value;
+      const savedPass = localStorage.getItem("adminPassword") || "admin123";
+      
+      if(u === "admin" && p === savedPass) {
+        sessionStorage.setItem("adminAuth", "true");
+        window.location.href = "admin-panel.html"; 
+      } else {
+        alert("Access Denied.");
+      }
+    }
+  </script>
+</body>
+</html>

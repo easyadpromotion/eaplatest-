@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Easy Ad Promotion</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* 1. DESKTOP BACKGROUND */
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: #e0e0e0; 
+            margin: 0; padding: 0; 
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh;
+        }
+
+        /* 2. MOBILE FRAME CONTAINER */
+        .mobile-screen {
+            background: #29b6f6; /* Cyan Blue Background */
+            width: 100%; 
+            max-width: 340px; 
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,0.25); 
+        }
+
+        /* Desktop Mode: Very Tall Phone Look */
+        @media (min-width: 450px) {
+            .mobile-screen {
+                height: 90vh; 
+                min-height: 800px;
+                border-radius: 40px; 
+                border: 10px solid #111;
+            }
+        }
+
+        /* 3. LOGO SECTION */
+        .logo-container {
+            margin-top: 60px;
+            background: white;
+            padding: 20px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: flex; flex-direction: column; align-items: center;
+            width: 80%;
+        }
+        .logo-img { width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; }
+        .brand-main { font-weight: 900; color: #01579b; font-size: 18px; letter-spacing: 1px; text-align: center; }
+
+        /* 4. TEXT SECTION */
+        .welcome-title { color: white; font-size: 28px; font-weight: 800; margin-top: 40px; }
+        .welcome-sub { color: rgba(255,255,255,0.9); font-size: 14px; margin-bottom: 30px; }
+
+        /* 5. BUTTONS CONTAINER */
+        .btn-container { width: 85%; display: flex; flex-direction: column; gap: 15px; }
+
+        .role-btn {
+            display: flex; align-items: center; justify-content: space-between;
+            background: white; text-decoration: none;
+            padding: 15px 20px; border-radius: 18px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .role-btn:active { transform: scale(0.98); }
+
+        .btn-text { display: flex; flex-direction: column; text-align: left; }
+        .btn-title { font-size: 18px; font-weight: 800; }
+        .btn-desc { font-size: 11px; color: #777; font-weight: 600; }
+        .btn-icon { font-size: 28px; }
+
+        /* COLORS */
+        .btn-user .btn-title { color: #d84315; } /* Orange Text */
+        .btn-user .btn-icon { color: #d84315; }
+
+        .btn-vendor .btn-title { color: #00897b; } /* Teal Text */
+        .btn-vendor .btn-icon { color: #00897b; }
+
+        /* 6. BOTTOM AD AREA */
+        .ad-footer {
+            margin-top: auto; 
+            background: white; width: 100%;
+            padding: 25px 20px 40px;
+            border-radius: 30px 30px 0 0; /* Rounded Top */
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .trip-icon { font-size: 40px; display: block; margin-bottom: 5px; }
+        .trip-badge { 
+            background: #fff3e0; color: #ff8f00; 
+            font-size: 10px; font-weight: 800; padding: 4px 10px; 
+            border-radius: 10px; border: 1px solid #ffe082;
+        }
+        .ad-title { font-size: 20px; font-weight: 800; color: #333; margin-top: 10px; }
+        .ad-desc { font-size: 12px; color: #666; margin-top: 5px; line-height: 1.4; }
+
+        /* ADMIN LINK */
+        .admin-link {
+            margin-top: 20px; color: rgba(255,255,255,0.6); 
+            font-size: 12px; text-decoration: none; font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div class="mobile-screen">
+    
+    <div class="logo-container">
+        <img src="EAP-LOGO.jpg" class="logo-img" alt="EAP Logo" onerror="this.src='https://via.placeholder.com/80/01579b/fff?text=LOGO'">
+        <div class="brand-main">EASY AD PROMOTION</div>
+    </div>
+
+    <div class="welcome-title">Welcome to EAP</div>
+    <div class="welcome-sub">Choose your role to start:</div>
+
+    <div class="btn-container">
+        <a href="user_login.html?v=8" class="role-btn btn-user">
+            <div class="btn-text">
+                <span class="btn-title">I am a User</span>
+                <span class="btn-desc">View ads & earn money</span>
+            </div>
+            <div class="btn-icon">👤</div>
+        </a>
+
+        <a href="vendor-login.html" class="role-btn btn-vendor">
+            <div class="btn-text">
+                <span class="btn-title">I am a Vendor</span>
+                <span class="btn-desc">Post ads & promote business</span>
+            </div>
+            <div class="btn-icon">🏢</div>
+        </a>
+    </div>
+
+    <a href="admin-login.html" class="admin-link">Admin Access</a>
+
+    <div class="ad-footer">
+        <span class="trip-icon">✈️🌴</span>
+        <span class="trip-badge">EAP MEGA GIVEAWAY</span>
+        <div class="ad-title">Win a Trip to Dubai!</div>
+        <div class="ad-desc">
+            Top earners this month win an all-expenses paid trip. 
+            Login now to check the leaderboard!
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

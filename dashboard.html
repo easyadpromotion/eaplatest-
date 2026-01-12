@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* APP FRAME */
+    body { font-family: 'Poppins', sans-serif; background: #f0f2f5; margin: 0; padding: 20px; display: flex; justify-content: center; min-height: 100vh; }
+    
+    .mobile-screen { 
+      background: #ffffff; width: 100%; max-width: 380px; min-height: 100vh; 
+      position: relative; display: flex; flex-direction: column; 
+      box-shadow: 0 0 30px rgba(0,0,0,0.1); border-radius: 30px; overflow: hidden;
+    }
+    
+    /* HEADER (Orange) */
+    .header {
+      background: #ff9800; padding: 25px 20px 30px; color: white;
+      border-radius: 0 0 30px 30px; box-shadow: 0 5px 15px rgba(255, 152, 0, 0.2);
+    }
+
+    .wallet-pill {
+        background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 20px;
+        font-weight: 700; font-size: 14px; display: inline-block; backdrop-filter: blur(5px);
+    }
+
+    /* GRID MENU */
+    .grid-container { 
+        padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; 
+        overflow-y: auto; padding-bottom: 80px; 
+    }
+    
+    .menu-card {
+      background: white; border-radius: 20px; padding: 20px 10px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; text-decoration: none; color: #333;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #f9f9f9;
+      transition: transform 0.2s; position: relative; overflow: hidden;
+    }
+    .menu-card:active { transform: scale(0.98); }
+    
+    /* Colored Top Borders */
+    .c-frame { border-top: 5px solid #673ab7; }
+    .c-video { border-top: 5px solid #e91e63; }
+    .c-survey { border-top: 5px solid #03a9f4; }
+    .c-wallet { border-top: 5px solid #009688; }
+    .c-vendor { border-top: 5px solid #4caf50; }
+    .c-profile { border-top: 5px solid #ff9800; }
+
+    .card-icon { font-size: 30px; margin-bottom: 10px; }
+    .card-title { font-size: 13px; font-weight: 700; color: #444; }
+    .card-sub { font-size: 10px; color: #888; margin-top: 3px; }
+
+    /* BOTTOM NAV */
+    .bottom-nav {
+        position: absolute; bottom: 0; left: 0; width: 100%;
+        background: white; border-top: 1px solid #eee;
+        display: flex; justify-content: space-around; padding: 12px 0;
+        border-radius: 20px 20px 0 0; z-index: 50;
+    }
+    .nav-item { 
+        text-decoration: none; display: flex; flex-direction: column; align-items: center; 
+        color: #aaa; flex: 1; cursor: pointer;
+    }
+    .nav-icon { font-size: 22px; margin-bottom: 3px; }
+    .nav-text { font-size: 10px; font-weight: 600; }
+    .nav-item.active { color: #ff9800; }
+
+  </style>
+</head>
+<body onload="loadDashboard()">
+
+<div class="mobile-screen">
+
+  <div class="header">
+    <div style="font-size:18px; font-weight:700; margin-bottom:10px;">User Dashboard</div>
+    <div class="wallet-pill">Wallet: <span id="dispBal">₹ 0.00</span></div>
+  </div>
+
+  <div class="grid-container">
+    
+    <a href="frame-ads.html" class="menu-card c-frame">
+      <div class="card-icon">📷</div>
+      <div class="card-title">Frame Ads</div>
+      <div class="card-sub">View & Earn</div>
+    </a>
+
+    <a href="video-ads.html" class="menu-card c-video">
+      <div class="card-icon">🎬</div>
+      <div class="card-title">Video Ads</div>
+      <div class="card-sub">Watch & Earn</div>
+    </a>
+
+    <a href="surveys.html" class="menu-card c-survey">
+      <div class="card-icon">📝</div>
+      <div class="card-title">Survey Ads</div>
+      <div class="card-sub">Check Stats</div>
+    </a>
+
+    <a href="wallet.html" class="menu-card c-wallet">
+      <div class="card-icon">💰</div>
+      <div class="card-title">My Wallet</div>
+      <div class="card-sub">Check Balance</div>
+    </a>
+
+    <a href="vendor_login.html" class="menu-card c-vendor">
+      <div class="card-icon">➕</div>
+      <div class="card-title">Post Ad</div>
+      <div class="card-sub">Switch to Vendor</div>
+    </a>
+
+    <a href="settings.html" class="menu-card c-profile">
+      <div class="card-icon">👤</div>
+      <div class="card-title">My Profile</div>
+      <div class="card-sub">Settings & Logout</div>
+    </a>
+
+  </div>
+
+  <div class="bottom-nav">
+      <a href="dashboard.html" class="nav-item active">
+          <div class="nav-icon">🏠</div><span class="nav-text">Home</span>
+      </a>
+      <a href="frame-ads.html" class="nav-item">
+          <div class="nav-icon">📢</div><span class="nav-text">Ads</span>
+      </a>
+      <a href="wallet.html" class="nav-item">
+          <div class="nav-icon">👛</div><span class="nav-text">Wallet</span>
+      </a>
+      <a href="settings.html" class="nav-item">
+          <div class="nav-icon">⚙️</div><span class="nav-text">Settings</span>
+      </a>
+  </div>
+
+</div>
+
+<script>
+  function loadDashboard() {
+    const activeMobile = localStorage.getItem("activeUser");
+    if(activeMobile) {
+        const user = JSON.parse(localStorage.getItem("userProfile_" + activeMobile));
+        if(user) {
+            document.getElementById("dispBal").innerText = "₹ " + parseFloat(user.wallet).toFixed(2);
+        }
+    }
+  }
+</script>
+
+</body>
+</html>

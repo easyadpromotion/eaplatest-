@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* 1. APP FRAME */
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: #e0e0e0; 
+            margin: 0; padding: 0; 
+            display: flex; justify-content: center; min-height: 100vh; 
+        }
+
+        .mobile-screen { 
+            background: #f8f9fa; /* Light Grey Body */
+            width: 100%; max-width: 380px; 
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            position: relative; 
+            box-shadow: 0 0 50px rgba(0,0,0,0.1); 
+        }
+
+        /* Desktop Mode: Phone Look */
+        @media (min-width: 450px) {
+            .mobile-screen {
+                height: 95vh; 
+                min-height: 850px; 
+                border-radius: 40px; 
+                border: 12px solid #111; 
+                overflow: hidden; 
+                margin: 20px;
+            }
+        }
+
+        /* 2. HEADER (Orange Theme) */
+        .header {
+            background: #ff9800; /* Matches Screenshot */
+            padding: 25px 20px 35px;
+            border-radius: 0 0 35px 35px;
+            color: white;
+            box-shadow: 0 10px 20px rgba(255, 152, 0, 0.2);
+            flex-shrink: 0;
+        }
+
+        /* TOP ROW: Profile - Logo - Bell */
+        .top-row {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 25px;
+        }
+
+        /* Icons */
+        .icon-btn {
+            width: 45px; height: 45px;
+            background: rgba(255,255,255,0.25); /* Glass effect */
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; cursor: pointer;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #5d4037; /* Darker brown for contrast inside orange */
+        }
+
+        /* LOGO CENTER - BIGGER & NO TEXT */
+        .app-logo-box {
+            background: white;
+            width: 60px; height: 60px; /* INCREASED SIZE */
+            border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .logo-img {
+            width: 40px; height: auto; /* Logo scales nicely */
+            object-fit: contain;
+        }
+
+        /* STATS CARDS */
+        .stats-row { display: flex; gap: 15px; }
+        .stat-card {
+            flex: 1;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 20px;
+            padding: 15px 20px;
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+        .stat-label { font-size: 10px; text-transform: uppercase; font-weight: 700; opacity: 0.9; letter-spacing: 0.5px; }
+        .stat-val { font-size: 18px; font-weight: 800; margin-top: 2px; }
+        .stat-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); font-size: 20px; opacity: 0.8; }
+
+        /* 3. QUICK LINKS (White Cards) */
+        .menu-grid {
+            display: flex; justify-content: space-between; gap: 10px;
+            padding: 20px; margin-top: -10px;
+        }
+        .menu-item {
+            flex: 1; background: white; padding: 15px 5px; border-radius: 20px;
+            display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #333;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03); transition: 0.2s;
+        }
+        .menu-item:active { transform: scale(0.95); }
+        .menu-icon { font-size: 24px; margin-bottom: 8px; }
+        .menu-text { font-size: 11px; font-weight: 700; color: #444; }
+
+        /* 4. SPONSORED TASKS */
+        .section-title { font-size: 14px; font-weight: 800; color: #333; padding: 0 25px; margin-bottom: 10px; }
+        
+        .task-list { padding: 0 20px 100px; overflow-y: auto; flex: 1; } /* Padding bottom for nav */
+        
+        .task-card {
+            background: white; border-radius: 18px; padding: 15px; 
+            display: flex; align-items: center; justify-content: space-between; 
+            box-shadow: 0 3px 10px rgba(0,0,0,0.02); margin-bottom: 12px;
+            border: 1px solid #f0f0f0;
+        }
+        .t-left { display: flex; align-items: center; gap: 12px; }
+        .t-icon { width: 40px; height: 40px; background: #e0f2f1; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .t-info { display: flex; flex-direction: column; }
+        .t-name { font-size: 13px; font-weight: 700; color: #333; }
+        .t-sub { font-size: 10px; color: #888; margin-top: 2px; }
+        
+        .start-btn { 
+            background: #ff9800; color: white; padding: 8px 18px; border-radius: 20px; 
+            font-size: 11px; font-weight: 700; border: none; cursor: pointer; text-decoration: none;
+            box-shadow: 0 4px 10px rgba(255, 152, 0, 0.2); 
+        }
+
+        /* 5. BOTTOM NAV */
+        .bottom-nav {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            background: white; border-top: 1px solid #f5f5f5;
+            display: flex; justify-content: space-around; padding: 15px 0 10px;
+            border-radius: 30px 30px 0 0; z-index: 50;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.03);
+        }
+        .nav-item { text-decoration: none; display: flex; flex-direction: column; align-items: center; color: #aaa; flex: 1; }
+        .nav-ico { font-size: 22px; margin-bottom: 4px; }
+        .nav-txt { font-size: 10px; font-weight: 600; }
+        .nav-item.active { color: #ff9800; }
+
+        .empty-state { text-align: center; color: #aaa; font-size: 12px; margin-top: 20px; width: 100%; }
+
+    </style>
+</head>
+<body onload="loadHome()">
+
+<div class="mobile-screen">
+
+    <div class="header">
+        <div class="top-row">
+            <div class="icon-btn" onclick="window.location.href='settings.html'">👤</div>
+            
+            <div class="app-logo-box">
+                <img src="EAP-LOGO.jpg" class="logo-img" onerror="this.src='https://via.placeholder.com/40'">
+            </div>
+
+            <div class="icon-btn">🔔</div>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-label">LOCATION</div>
+                <div class="stat-val" id="dispCity">India</div>
+                <div class="stat-icon">📍</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">BALANCE</div>
+                <div class="stat-val" id="dispBal">₹ 0.00</div>
+                <div class="stat-icon">💰</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-grid">
+        <a href="frame-ads.html" class="menu-item">
+            <div class="menu-icon">🖼️</div>
+            <div class="menu-text">Frame Ads</div>
+        </a>
+        <a href="video-ads.html" class="menu-item">
+            <div class="menu-icon">▶</div>
+            <div class="menu-text">Video Ads</div>
+        </a>
+        <a href="surveys.html" class="menu-item">
+            <div class="menu-icon">📝</div>
+            <div class="menu-text">Surveys</div>
+        </a>
+    </div>
+
+    <div class="section-title">Sponsored Tasks</div>
+    <div class="task-list" id="taskContainer">
+        <div class="empty-state">Loading tasks...</div>
+    </div>
+
+    <div class="bottom-nav">
+        <a href="home.html" class="nav-item active"><div class="nav-ico">🏠</div><span class="nav-txt">Home</span></a>
+        <a href="frame-ads.html" class="nav-item"><div class="nav-ico">📢</div><span class="nav-txt">Ads</span></a>
+        <a href="wallet.html" class="nav-item"><div class="nav-ico">👛</div><span class="nav-txt">Wallet</span></a>
+        <a href="settings.html" class="nav-item"><div class="nav-ico">⚙️</div><span class="nav-txt">Settings</span></a>
+    </div>
+
+</div>
+
+<script>
+    function loadHome() {
+        const activeMobile = localStorage.getItem("activeUser");
+        if(!activeMobile) {
+            // Force login if no user
+            window.location.href = "user_login.html";
+            return;
+        }
+
+        const user = JSON.parse(localStorage.getItem("userProfile_" + activeMobile)) || { wallet: 0, viewedAds: [] };
+        
+        // Update Header Stats
+        document.getElementById("dispBal").innerText = "₹ " + parseFloat(user.wallet).toFixed(2);
+        if(user.city) document.getElementById("dispCity").innerText = user.city;
+
+        // Load Tasks (Logic to show tasks)
+        const allAds = JSON.parse(localStorage.getItem("vendorCampaigns")) || [];
+        const container = document.getElementById("taskContainer");
+        const viewedList = user.viewedAds || [];
+        
+        // Show Active tasks NOT yet viewed
+        const activeAds = allAds.filter(ad => ad.status === "Active" && !viewedList.includes(ad.id));
+
+        container.innerHTML = "";
+        if (activeAds.length === 0) {
+            container.innerHTML = `<div class="empty-state">No new tasks available.<br>Check back later!</div>`;
+            
+            // OPTIONAL: Show Sample Tasks if empty (For demo purposes)
+            if(allAds.length === 0) {
+                container.innerHTML += `
+                <div class="task-card">
+                    <div class="t-left"><div class="t-icon">🏦</div><div class="t-info"><div class="t-name">Business Loans</div><div class="t-sub">Finance • High Reward</div></div></div>
+                    <a href="frame-ads.html" class="start-btn">Start</a>
+                </div>`;
+            }
+            return;
+        }
+
+        activeAds.forEach(ad => {
+            let link = "frame-ads.html";
+            let icon = "🖼️";
+            if(ad.type === "Video") { link="video-ads.html"; icon="▶"; }
+            if(ad.type === "Survey") { link="surveys.html"; icon="📝"; }
+
+            const html = `
+            <div class="task-card">
+                <div class="t-left">
+                    <div class="t-icon">${icon}</div>
+                    <div class="t-info">
+                        <div class="t-name">${ad.name}</div>
+                        <div class="t-sub">${ad.category}</div>
+                    </div>
+                </div>
+                <a href="${link}" class="start-btn">Start</a>
+            </div>`;
+            container.innerHTML += html;
+        });
+    }
+</script>
+
+</body>
+</html>

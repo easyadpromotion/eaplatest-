@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EAP – Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { 
+      font-family: 'Segoe UI', sans-serif; 
+      background: #eef2f5; /* Light gray background outside the phone */
+      margin: 0; padding: 0; 
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh;
+    }
+
+    /* MOBILE FRAME CONTAINER */
+    .mobile-screen {
+      background: #fff;
+      width: 100%; max-width: 380px; /* Standard Mobile Width */
+      min-height: 750px; /* Tall Mobile Height */
+      border-radius: 35px; /* Rounded corners like a phone */
+      box-shadow: 0 30px 60px rgba(0,0,0,0.15); /* Floating effect */
+      padding: 40px 30px;
+      box-sizing: border-box;
+      display: flex; flex-direction: column; align-items: center;
+      position: relative;
+      text-align: center;
+    }
+
+    /* LOGO SECTION */
+    .logo-area { margin-top: 20px; margin-bottom: 10px; width: 100%; }
+    .main-logo { width: 180px; height: auto; display: block; margin: 0 auto; }
+
+    /* EAP BRAND TEXT */
+    .brand-text {
+        font-size: 48px; 
+        font-weight: 900; 
+        color: #e65100; /* Deep Orange */
+        margin: 5px 0 20px 0;
+        letter-spacing: 2px;
+        line-height: 1;
+    }
+
+    /* TITLE */
+    h2 { margin: 0; color: #333; font-size: 26px; font-weight: 800; }
+    p { color: #888; font-size: 14px; margin: 5px 0 30px 0; }
+
+    /* INPUT GROUP */
+    .input-group { width: 100%; margin-bottom: 15px; }
+    
+    select, input { 
+      width: 100%; padding: 16px; 
+      border: 2px solid #f0f0f0; border-radius: 12px; 
+      font-size: 16px; outline: none; box-sizing: border-box; text-align: center;
+      background: #fafafa; transition: 0.3s; color: #333; font-weight: 500;
+    }
+    input:focus, select:focus { border-color: #ff9800; background: #fff; }
+    
+    /* BIG ORANGE BUTTON */
+    .btn-main {
+      width: 100%; padding: 18px; 
+      background: #ff9800; color: white; border: none; 
+      border-radius: 12px; font-size: 18px; font-weight: 800; 
+      cursor: pointer; margin-top: 20px;
+      box-shadow: 0 8px 20px rgba(255, 152, 0, 0.3);
+      transition: transform 0.1s;
+    }
+    .btn-main:active { transform: scale(0.98); }
+
+    .hidden { display: none; }
+    .otp-msg { color: #2e7d32; font-weight: 700; font-size: 14px; margin-bottom: 20px; background: #e8f5e9; padding: 10px; border-radius: 8px; width: 100%; }
+    
+    .footer-link { margin-top: auto; font-size: 13px; color: #999; }
+  </style>
+</head>
+<body>
+
+  <div class="mobile-screen">
+    
+    <div class="logo-area">
+      <img src="EAP-LOGO.jpg" alt="EAP Logo" class="main-logo">
+    </div>
+
+    <div class="brand-text">EAP</div>
+
+    <div id="step1" style="width: 100%;">
+      <h2>Welcome Back</h2>
+      <p>Login to manage ads & earnings</p>
+      
+      <div class="input-group">
+        <select>
+          <option>English (India)</option>
+          <option>Telugu</option>
+          <option>Hindi</option>
+        </select>
+      </div>
+      
+      <div class="input-group">
+        <input type="number" id="uMobile" placeholder="Enter Mobile Number">
+      </div>
+      
+      <button class="btn-main" onclick="sendOTP()">Get OTP</button>
+    </div>
+
+    <div id="step2" class="hidden" style="width: 100%;">
+      <h2>Verify Access</h2>
+      <p>Enter the code sent to your mobile</p>
+
+      <div id="otpDisplay" class="otp-msg"></div>
+      
+      <div class="input-group">
+        <input type="number" id="otpInput" placeholder="Enter 4-Digit Code" style="letter-spacing: 5px; font-weight:bold; font-size: 20px;">
+      </div>
+      
+      <button class="btn-main" onclick="verifyLogic()">Verify & Proceed</button>
+      
+      <div style="margin-top:20px; font-size:14px; color:#777; cursor:pointer;" onclick="location.reload()">
+        Change Number
+      </div>
+    </div>
+
+    <div class="footer-link">Easy Ad Promotion &copy; 2026</div>
+
+  </div>
+
+  <script>
+    let serverOTP = 0;
+    let userMobile = "";
+
+    function sendOTP() {
+      const mobile = document.getElementById("uMobile").value.trim();
+      if(mobile.length !== 10) { alert("Please enter a valid 10-digit mobile number."); return; }
+      userMobile = mobile;
+      serverOTP = Math.floor(1000 + Math.random() * 9000); 
+      document.getElementById("step1").classList.add("hidden");
+      document.getElementById("step2").classList.remove("hidden");
+      document.getElementById("otpDisplay").textContent = `OTP Sent to ${mobile}`;
+      setTimeout(() => { alert(`[EAP LOGIN]\nYour OTP is: ${serverOTP}`); }, 500);
+    }
+
+    function verifyLogic() {
+      const input = document.getElementById("otpInput").value;
+      if(input == serverOTP) {
+        const existingUser = localStorage.getItem("userProfile_" + userMobile);
+        if(existingUser) {
+            localStorage.setItem("activeUserMobile", userMobile);
+            window.location.replace("dashboard.html");
+        } else {
+            sessionStorage.setItem("registerMobile", userMobile);
+            window.location.replace("register.html");
+        }
+      } else {
+        alert("Invalid OTP. Please try again.");
+      }
+    }
+  </script>
+</body>
+</html>

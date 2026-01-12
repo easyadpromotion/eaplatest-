@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Frame Ad</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f6f8; margin: 0; padding: 0; }
+
+        /* HEADER */
+        .header { background: white; padding: 15px; display: flex; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .back-btn { text-decoration: none; font-size: 24px; color: #333; margin-right: 15px; }
+        
+        /* FORM CONTAINER */
+        .container { padding: 20px; max-width: 600px; margin: auto; }
+        
+        .form-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+
+        label { display: block; font-weight: 600; margin-bottom: 8px; color: #333; font-size: 14px; }
+        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
+        
+        /* UPLOAD BOX */
+        .upload-box {
+            border: 2px dashed #ccc; padding: 30px; text-align: center; border-radius: 8px; margin-bottom: 20px; background: #fafafa; cursor: pointer;
+        }
+        .upload-icon { font-size: 40px; color: #ccc; display: block; margin-bottom: 10px; }
+        
+        /* BUTTON */
+        .btn-submit {
+            background-color: #00b894; color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer;
+        }
+        .btn-submit:hover { background-color: #00a187; }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="select_ad_type.html" class="back-btn">&larr;</a>
+        <h2 style="margin: 0; font-size: 18px; color: #333;">Post Frame Ad</h2>
+    </div>
+
+    <div class="container">
+        <div class="form-card">
+            
+            <label>Ad Image (Banner)</label>
+            <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+                <span class="upload-icon">📷</span>
+                <span style="color:#666; font-size:13px;">Click to Upload Image</span>
+                <input type="file" id="fileInput" style="display: none;">
+            </div>
+
+            <label>Campaign Name</label>
+            <input type="text" placeholder="e.g., Diwali Sale Offer">
+
+            <label>Ad Description</label>
+            <textarea rows="3" placeholder="Describe your offer..."></textarea>
+
+            <label>Target Category</label>
+            <select>
+                <option>Select Category</option>
+                <option>Automobile</option>
+                <option>Education</option>
+                <option>Fashion</option>
+                <option>Food & Restaurants</option>
+                <option>Real Estate</option>
+                <option>Technology</option>
+                </select>
+
+            <label>Target Location (City or PIN)</label>
+            <input type="text" placeholder="e.g., Visakhapatnam, 530001">
+
+            <label>Daily Budget (₹)</label>
+            <input type="number" placeholder="Min ₹100">
+
+            <button class="btn-submit" onclick="alert('Ad Submitted for Approval!')">🚀 Publish Ad</button>
+
+        </div>
+    </div>
+
+</body>
+</html>
