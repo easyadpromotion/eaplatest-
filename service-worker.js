@@ -1,10 +1,10 @@
 const CACHE_NAME = "eap-cache-v1";
 const FILES_TO_CACHE = [
-  "./",
-  "./index.html",
-  "./manifest.json",
-  "./icon-192.png",
-  "./icon-512.png"
+  "/eaplatest/",
+  "/eaplatest/index.html",
+  "/eaplatest/manifest.json",
+  "/eaplatest/icon-192.png",
+  "/eaplatest/icon-512.png"
 ];
 
 // Install
@@ -17,7 +17,7 @@ self.addEventListener("install", event => {
   self.skipWaiting();
 });
 
-// Activate (cleanup old caches)
+// Activate
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
